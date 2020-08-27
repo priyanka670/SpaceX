@@ -19,7 +19,7 @@ class App extends React.Component{
      // handle success
     // console.log(response);
     //it will update the state of space data. previously it was empty state then state is fetched from backend.
-    this.setState({spaceData:response.data , selectedYear:""})
+    this.setState({spaceData:response.data})
   })
  
   }
@@ -31,7 +31,7 @@ class App extends React.Component{
       <div className="App">
         <h1>SpaceX Launch Program</h1>
         <div className="d-flex flex-column flex-sm-column flex-md-row flex-lg-row align-items-center align-items-sm-center align-items-md-start align-items-lg-start">
-          <Filter onYearChange={}/>
+          <Filter/>
 
           {this.state.spaceData?<SpaceXList myData={this.state.spaceData}/>:<p>Loading....</p>}
         </div>
