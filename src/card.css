@@ -1,0 +1,33 @@
+.cardContainer{
+    width: 225px;
+    height: 560px;
+    text-align: left;
+}
+
+.imageContainer{
+  margin:10px ;
+  background-color: #88888842;
+  width: auto !important;
+}
+
+@media (max-width: 699.98px) { 
+    .cardContainer{
+    width: 280px;
+    }
+   }
+  
+   /* tablet screens */
+  @media (min-width: 700px) and (max-width: 1024px) { 
+    .cardContainer{
+      width: 220px;
+    }
+   }
+  
+   /* Desktop screen*/ 
+  @media (min-width: 1025px) { 
+    .cardContainer{
+     width:250px;
+    }
+  }
+  
+  
