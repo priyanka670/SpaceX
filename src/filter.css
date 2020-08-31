@@ -1,11 +1,31 @@
+
 .filterContainer{
-    width: 280px;
+    width: 276px;
+    border-radius: 10px !important;
+}
+.Header{
+    text-align: center;
+    border-bottom: 2px solid #cecece;
+    margin-bottom: 16px ;
 }
 
 .years{
-    background-color:  #4CAF50 !important; 
+    background-color:  #c4e19a !important; 
     color: black;
     border-radius: 5px;
-    margin: 10px;
-    width:85px;
+    width:85px !important;
+    border-radius: 10px !important;
 }
+
+.Active{
+    background-color: #7cba01 !important;
+}
+
+[type='radio'] {
+    display: none; 
+}
+@media (max-width: 699.98px) { 
+    .filterContainer{
+        width: 300px;
+    }
+ }

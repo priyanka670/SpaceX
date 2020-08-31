@@ -3,42 +3,112 @@ import './App.css';
 import  axios from 'axios';
 import Filter from './filters';
 import SpaceXList from './components/SpaceXList';
-
+import { allDatas , datasByYear, datasByLaunch, datasByLand, datasByAllFilters, datasByLandAndYear, datasByLaunchAndYear, datasBylaunchAndLand} from "./apis/index";
 class App extends React.Component{
   state={
     spaceData:[],
     year:"",
-    successfulLaunch:false
+    successfulLaunch:"",
+    successfulLand:"",
     
   }
   // componentdidmount will call the api through a promise [axios]
-  componentDidMount(){
+  async componentDidMount(){
     // enter URL 3rd party library
-    axios.get("https://api.spaceXdata.com/v3/launches?limit=100")
-  .then((response) => {   
-     // handle success
-    // console.log(response);
-    //it will update the state of space data. previously it was empty state then state is fetched from backend.
-    this.setState({spaceData:response.data})
-  })
- 
+     const spaceData = await allDatas()
+   
+    this.setState({spaceData})
+    
   }
-  render(){
-    //rendering data
-    return(
-      //jsx code
+  getFilters = () => {
+    const {year , successfulLaunch, successfulLand} = this.state;
+    if(year && successfulLaunch && successfulLand){
+     
+      return datasByAllFilters(year, successfulLaunch, successfulLand);
+    }else if( year && successfulLaunch){
       
-      <div className="App">
-        <h1>SpaceX Launch Program</h1>
-        <div className="d-flex flex-column flex-sm-column flex-md-row flex-lg-row align-items-center align-items-sm-center align-items-md-start align-items-lg-start">
-          <Filter/>
+      return datasByLaunchAndYear(year, successfulLaunch);
+    }else if( year && successfulLand){
+     
+      return datasByLandAndYear(year,successfulLand);
+    }else if( successfulLand && successfulLaunch){
+      
+      return datasBylaunchAndLand(successfulLaunch,successfulLand);
+    }else if( year){
+      
+     return datasByYear(this.state.year)
+    }else if(successfulLaunch){
+      
+      return datasByLaunch(successfulLaunch);
+    }else if(successfulLand){
+      
+      return datasByLand(successfulLand);
+    }else{
+      
+      return allDatas();
+    }
+  }
 
-          {this.state.spaceData?<SpaceXList myData={this.state.spaceData}/>:<p>Loading....</p>}
-        </div>
-      </div>
+  selectYear = (year) =>{
+    this.setState({year},
+      async ()=>{
+      const spaceData = await this.getFilters();
+      this.setState({spaceData})
+      
+    }
     )
   }
-  
-}
-  export default App;
+
+  isSuccessfulLaunch=(successfulLaunch)=>{
+    this.setState({successfulLaunch}, async ()=>{
+      const spaceData = await this.getFilters();
+      this.setState({spaceData})
+      
+    })
+  }
+
+  isSuccessfulLand=(successfulLand)=>{
+    this.setState({successfulLand}, async ()=>{
+      const spaceData = await this.getFilters();
+      this.setState({spaceData})
+     
+    })
+  }
+  clearFilter = () =>{
+    this.setState({ year:"", successfulLaunch:"", successfulLand:"" }, async ()=>{
+        const spaceData = await this.getFilters();
+        this.setState({spaceData})
+       
+    })
+  }
+  render(){
+    // console.log(this.state)
+     //rendering data
+     return(
+       //jsx code
+       <div className="App">
+         <h1>SpaceX Launch Program</h1>
+         <div className="d-flex flex-column flex-sm-column flex-md-row flex-lg-row align-items-center align-items-sm-center align-items-md-start align-items-lg-start">
+           <Filter 
+             selectYear={this.selectYear} 
+             isSuccessfulLaunch={this.isSuccessfulLaunch} 
+             isSuccessfulLand={this.isSuccessfulLand}
+             clearFilter={this.clearFilter}
+             />
+           {this.state.spaceData?<SpaceXList myData={this.state.spaceData}/>:<p>Loading....</p>}
+         </div>
+
+         <div className="devBy">
+            <b>Developed By : </b>Priyanka Sahu
+         </div>
+       </div>
+     )
+   }
+   
+ }
+   export default App;
+ 
+
+
+
 

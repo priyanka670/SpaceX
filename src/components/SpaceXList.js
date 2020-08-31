@@ -8,16 +8,18 @@ const SpaceXList =(props)=>{
     const newSpaceXData= myData.map(currentData =>{
         return (
           //logic to store data in newSpaceXData  
-        <div className="" key={currentData.flight_number}>
+        <div className="col d-flex justify-content-center justify-content-sm-center justify-content-md-start justify-content-lg-start justify-content-xl-start" key={currentData.flight_number}>
           <Card cardData={currentData}/>
           </div>
         )
        })
     return(
-        <div>
-            <div className="d-flex flex-wrap justify-content-around" >
-                {newSpaceXData} 
-            </div>
+        <div className="ml-0 ml-sm-0 ml-md-4 ml-lg-4 ml-xl-4">
+            
+            {myData.length?<div className="row no-gutters justify-content-start">
+            {newSpaceXData} 
+            </div>:<p>No Data Found</p>}
+
         </div>
     )
 }
